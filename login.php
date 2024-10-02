@@ -10,11 +10,18 @@ if (isset($_POST['login'])) {
     $hitung = mysqli_num_rows($cekdatabase);
 
     if ($hitung>0){
-        echo 'data ada';
+        $_SESSION['log'] = 'True';
+        header('location:index.php');
     } else{
-        echo 'tidak ada';
-    }
-}
+        header('location:login.php');
+    };
+};
+
+if (!isset($_SESSION['log'])) {
+
+}   else {
+    header('location:index.php');
+};
 
 ?>
 

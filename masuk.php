@@ -60,7 +60,7 @@ require 'cek.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Stok Barang</h1>
+                        <h1 class="mt-4">Barang Masuk</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table mr-1"></i>
