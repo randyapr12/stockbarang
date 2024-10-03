@@ -133,13 +133,26 @@ require 'cek.php';
             <!-- Modal body -->
             <form method="post">
             <div class="modal-body">
-            <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+            <select name="barangnya" class="form-control">
+                <?php
+                    $ambilsmuadatanya = mysqli_query($conn,"SELECT * FROM stock");
+                    while($fetcharray = mysqli_fetch_array($ambilsmuadatanya)){
+                        $namabarangya = $fetcharray['namabarang'];
+                        $idbarangnya = $fetcharray['idbarang'];
+                ?>
+
+                <option value="<?=$idbarangnya;?>"><?=$namabarangya;?></option>
+
+                <?php
+                    }
+                ?>
+            </select>
             <br>
-            <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+            <input type="number" name="qty" placeholder="Quantity" class="form-control" required>
             <br>
-            <input type="number" name="stock" placeholder="Stock" class="form-control" required>
+            <input type="text" name="penerima" placeholder="Penerima" class="form-control" required>
             <br>
-            <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+            <button type="submit" class="btn btn-primary" name="addbarangkeluar">Submit</button>
             </div>
             </form>
             
