@@ -63,8 +63,10 @@ require 'cek.php';
                         <h1 class="mt-4">Barang Keluar</h1>
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                DataTable Example
+                                 <!-- Button to Open the Modal -->
+                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Tambah Barang Keluar
+                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -116,4 +118,33 @@ require 'cek.php';
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
+
+       <!-- The Modal -->
+       <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Tambah Barang Keluar</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <form method="post">
+            <div class="modal-body">
+            <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+            <br>
+            <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+            <br>
+            <input type="number" name="stock" placeholder="Stock" class="form-control" required>
+            <br>
+            <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+            </div>
+            </form>
+            
+        </div>
+        </div>
+    </div>
+
 </html>

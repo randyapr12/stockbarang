@@ -63,8 +63,10 @@ require 'cek.php';
                         <h1 class="mt-4">Barang Masuk</h1>
                         <div class="card mb-4">
                             <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                DataTable Example
+                                <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Tambah Barang Masuk
+                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -116,4 +118,45 @@ require 'cek.php';
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
+
+       <!-- The Modal -->
+       <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Tambah Barang Masuk</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <form method="post">
+            <div class="modal-body">
+
+            <select name="barangnya" class="form-control">
+                <?php
+                    $ambilsmuadatanya = mysqli_query($conn,"SELECT * FROM stock");
+                    while($fetcharray = mysqli_fetch_array($ambilsmuadatanya)){
+                        $namabarangya = $fetcharray['namabarang'];
+                        $idbarangnya = $fetcharray['idbarang'];
+                ?>
+
+                <option value="<?=$idbarangnya;?>"><?=$namabarangya;?></option>
+
+                <?php
+                    }
+                ?>
+            </select>
+            <br>
+            <input type="text" name="penerima" placeholder="Penerima" class="form-control" required>
+            <br>
+            <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
+            </div>
+            </form>
+            
+        </div>
+        </div>
+    </div>
+
 </html>
