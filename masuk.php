@@ -21,15 +21,7 @@ require 'cek.php';
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="masuk.php">Stok Barang Gudang</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
+            
            
         </nav>
         <div id="layoutSidenav">
@@ -73,19 +65,33 @@ require 'cek.php';
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
+                                                <th>Tanggal</th>
+                                                <th>Nama Barang</th>
+                                                <th>Jumlah</th>
+                                                <th>Penerima</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            
+                                        <?php
+                                            $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
+                                            while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $tanggal = $data ['tanggal'];
+                                                $namabarang = $data ['namabarang'];
+                                                $qty = $data ['qty'];
+                                                $keterangan = $data ['keterangan'];
+                                            
+                                            ?>
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
+                                                <td><?=$tanggal;?></td>
+                                                <td><?=$namabarang;?></td>
+                                                <td><?=$qty;?></td>
+                                                <td><?=$keterangan;?></td>
                                             </tr>
+
+                                            <?php
+                                            };
+                                            ?>
                                             
                                         </tbody>
                                     </table>

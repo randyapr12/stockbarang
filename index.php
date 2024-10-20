@@ -22,16 +22,7 @@ require 'cek.php';
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="index.php">Stok Barang Gudang</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-           
+            
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -81,12 +72,26 @@ require 'cek.php';
                                             </tr>
                                         </thead>
                                         <tbody>
+
+                                            <?php
+                                            $ambilsemuadatastock = mysqli_query($conn,"select * from stock");
+                                            while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $i = 1;
+                                                $namabarang = $data ['namabarang'];
+                                                $deskripsi = $data ['deskripsi'];
+                                                $stock = $data ['stock'];
+                                            
+                                            ?>
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
+                                                <td><?=$i++;?></td>
+                                                <td><?=$namabarang;?></td>
+                                                <td><?=$deskripsi;?></td>
+                                                <td><?=$stock;?></td>
                                             </tr>
+
+                                            <?php
+                                            };
+                                            ?>
                                             
                                         </tbody>
                                     </table>
@@ -137,3 +142,4 @@ require 'cek.php';
     </div>
 
 </html>
+
