@@ -63,5 +63,20 @@ if(isset($_POST['addbarangkeluar'])) {
     }
 };
 
+//update info barang
+if(isset($_POST['updatebarang'])){
+    $idb = $_POST['idb'];
+    $namabarang = $_POST['namabarang'];
+    $deskripsi = $_POST['deskripsi'];
+
+    $update = mysqli_query($conn,"update stock set namabarang = '$namabarang', deskripsi = '$deskripsi' where idbarang = '$idb'");
+    if($update){
+        header('location:index.php');
+    } else {
+        echo'gagal';
+        header('location:index.php');
+    }
+}
+
 ?>
 
