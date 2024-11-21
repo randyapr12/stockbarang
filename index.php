@@ -69,28 +69,99 @@ require 'cek.php';
                                                 <th>Nama Barang</th>
                                                 <th>Deskripsi</th>
                                                 <th>Stock</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
+
                                             <?php
                                             $ambilsemuadatastock = mysqli_query($conn,"select * from stock");
+                                            $i = 1;
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                $i = 1;
                                                 $namabarang = $data ['namabarang'];
                                                 $deskripsi = $data ['deskripsi'];
                                                 $stock = $data ['stock'];
+                                                $idb = $data ['idbarang'];
                                             
                                             ?>
+
                                             <tr>
                                                 <td><?=$i++;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$deskripsi;?></td>
                                                 <td><?=$stock;?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
+                                                        Edit
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">
+                                                        Delete
+                                                    </button>
+                                                </td>
                                             </tr>
+
+
+                                            <!-- Edit Modal Header -->
+                                            <div class="modal fade" id="edit<?=$idb;?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Barang</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        
+                                                        <!-- Modal body -->
+                                                        <form method="post">
+                                                            <div class="modal-body">
+                                                                <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
+                                                                <br>
+                                                                <input type="text" name="deskripsi" value="<?=$deskripsi;?>" class="form-control" required>
+                                                                <br>
+                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                                <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Delete Modal Header -->
+                                            <div class="modal fade" id="delete<?=$idb;?>">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Hapus Barang?</h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+
+                                                            <!-- Modal body -->
+                                                            <form method="post">
+                                                                <div class="modal-body">
+                                                                    Apakah Anda yakin ingin menghapus <?=$namabarang;?>?
+                                                                    <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                                    <br>
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
 
                                             <?php
                                             };
+                                            
+
                                             ?>
                                             
                                         </tbody>
