@@ -59,8 +59,26 @@ require 'cek.php';
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                     Tambah Barang
                                 </button>
+                                <a href="export.php" class = "btn btn-info">Export data</a>
                             </div>
                             <div class="card-body">
+
+                            <?php
+                                $ambildatastock = mysqli_query($conn, "select * from stock where stock < 1");
+
+                                while($fetch=mysqli_fetch_array($ambildatastock)){
+                                    $barang = $fetch['namabarang'];
+                                
+                            ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Perhatian!</strong> Stock Barang <?=$barang;?> telah habis
+                            </div>
+                            <?php
+                                }
+                            ?>
+
+
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
