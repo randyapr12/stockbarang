@@ -1,8 +1,6 @@
 <?php
-
 require 'function.php';
 require 'cek.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -13,14 +11,14 @@ require 'cek.php';
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Stok Barang Gudang</title>
+        <title>Stok Bahan Baku</title>
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.php">Stok Barang Gudang</a>
+            <a class="navbar-brand" href="index.php">Stok Bahan Baku</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             
         </nav>
@@ -28,24 +26,29 @@ require 'cek.php';
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <a class="nav-link" href="index.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Stock Barang
-                            </a>
-                            <a class="nav-link" href="masuk.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Barang Masuk
-                            </a>
-                            <a class="nav-link" href="keluar.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Barang Keluar
-                            </a>
-                            <a class="nav-link" href="logout.php">
-                                Logout
-                            </a>
-                            
-                        </div>
+                    <div class="nav">
+                        <a class="nav-link" href="index.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                            Stock Barang
+                        </a>
+                        <a class="nav-link" href="masuk.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
+                            Barang Masuk
+                        </a>
+                        <a class="nav-link" href="keluar.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                            Barang Keluar
+                        </a>
+                        <a class="nav-link" href="admin.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
+                            Kelola Admin
+                        </a>
+                        <a class="nav-link" href="logout.php">
+                            <div class="sb-nav-link-icon"></div>
+                            Logout
+                        </a>
+                    </div>
+
                     </div>
                 </nav>
             </div>
