@@ -18,7 +18,10 @@ require 'cek.php';
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.php">Stok Barang Gudang</a>
+        <a class="navbar-brand" href="index.php">
+            <img src="images/logo.png" alt="Logo" style="width: 30px; height: auto; margin-right: 10px;" />
+            Kelola Admin
+        </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             
         </nav>
