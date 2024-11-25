@@ -2,26 +2,28 @@
 require 'function.php';
 
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
+    // Periksa apakah email ada di database
     $cekdatabase = mysqli_query($conn, "SELECT * FROM login WHERE email='$email' AND password='$password'");
     $hitung = mysqli_num_rows($cekdatabase);
 
     if ($hitung > 0) {
+        // Jika login berhasil
         $_SESSION['log'] = 'True';
         header('location:index.php');
     } else {
-        header('location:login.php');
+        // Jika login gagal, arahkan kembali dengan pesan error
+        header('location:login.php?error=1');
     }
 }
 
-if (!isset($_SESSION['log'])) {
-
-} else {
+if (isset($_SESSION['log'])) {
     header('location:index.php');
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +50,11 @@ if (!isset($_SESSION['log'])) {
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
+                                    <?php
+                                    if (isset($_GET['error']) && $_GET['error'] == '1') {
+                                        echo "<div class='alert alert-danger'>Email atau password yang Anda masukkan salah.</div>";
+                                    }
+                                    ?>
                                     <form method="post">
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Email</label>

@@ -3,7 +3,7 @@ session_start();
 
 $conn = mysqli_connect("localhost","root","","stockbarang");
 
-//tambah barang baru
+// tambah barang baru
 if(isset($_POST['addnewbarang'])) {
     $namabarang = $_POST['namabarang'];
     $deskripsi = $_POST['deskripsi'];
@@ -11,12 +11,12 @@ if(isset($_POST['addnewbarang'])) {
 
     $addtotable = mysqli_query($conn, "insert into stock (namabarang, deskripsi, stock) values('$namabarang','$deskripsi','$stock')");
     if($addtotable) {
-        header('location:index.php');
+        header('location:index.php?status=success');
     } else {
-        echo'gagal';
-        header('location:index.php');
+        header('location:index.php?status=error');
     }
-};
+}
+
 
 //menambah barang yang masuk
 if(isset($_POST['barangmasuk'])) {
@@ -67,7 +67,7 @@ if(isset($_POST['addbarangkeluar'])) {
     }
 };
 
-//update info barang
+// update info barang
 if(isset($_POST['updatebarang'])){
     $idb = $_POST['idb'];
     $namabarang = $_POST['namabarang'];
@@ -75,25 +75,24 @@ if(isset($_POST['updatebarang'])){
 
     $update = mysqli_query($conn,"update stock set namabarang = '$namabarang', deskripsi = '$deskripsi' where idbarang = '$idb'");
     if($update){
-        header('location:index.php');
+        header('location:index.php?status=update_success');
     } else {
-        echo'gagal';
-        header('location:index.php');
+        header('location:index.php?status=update_error');
     }
-};
+}
 
-//delete barang stock
+// delete barang stock
 if(isset($_POST['hapusbarang'])){
     $idb = $_POST['idb'];
 
     $hapus = mysqli_query($conn, "delete from stock where idbarang = '$idb'");
     if($hapus){
-        header('location:index.php');
+        header('location:index.php?status=delete_success');
     } else {
-        echo'gagal';
-        header('location:index.php');
+        header('location:index.php?status=delete_error');
     }
-};
+}
+
 
 //mengupdate barang masuk
 if(isset($_POST['updatebarangmasuk'])){

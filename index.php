@@ -15,6 +15,26 @@ require 'cek.php';
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+
+            if (status === 'success') {
+                alert('Barang berhasil ditambahkan!');
+            } else if (status === 'error') {
+                alert('Gagal menambahkan barang. Silakan coba lagi.');
+            } else if (status === 'update_success') {
+                alert('Barang berhasil diperbarui!');
+            } else if (status === 'update_error') {
+                alert('Gagal memperbarui barang. Silakan coba lagi.');
+            } else if (status === 'delete_success') {
+                alert('Barang berhasil dihapus!');
+            } else if (status === 'delete_error') {
+                alert('Gagal menghapus barang. Silakan coba lagi.');
+            }
+        };
+    </script>
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
