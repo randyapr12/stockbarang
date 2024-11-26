@@ -59,7 +59,7 @@ require 'cek.php';
                         </a>
                         <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                            Barang Keluar
+                            Penggunaan Barang
                         </a>
                         <a class="nav-link" href="admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
@@ -83,7 +83,7 @@ require 'cek.php';
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 Tambah Barang
                             </button>
-                            <a href="export.php" class="btn btn-info">Export data</a>
+                            <a href="export_stock.php" class="btn btn-info">Export data</a>
                         </div>
                         <div class="card-body">
                             <?php
@@ -106,24 +106,27 @@ require 'cek.php';
                                             <th>Nama Barang</th>
                                             <th>Deskripsi</th>
                                             <th>Stock</th>
+                                            <th>Tanggal Ditambahkan</th> <!-- New column for date -->
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ambilsemuadatastock = mysqli_query($conn,"select * from stock");
+                                        $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
                                         $i = 1;
                                         while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                            $namabarang = $data ['namabarang'];
-                                            $deskripsi = $data ['deskripsi'];
-                                            $stock = $data ['stock'];
-                                            $idb = $data ['idbarang'];
+                                            $namabarang = $data['namabarang'];
+                                            $deskripsi = $data['deskripsi'];
+                                            $stock = $data['stock'];
+                                            $tanggal = $data['tanggal']; // Fetch the date
+                                            $idb = $data['idbarang'];
                                         ?>
                                         <tr>
                                             <td><?=$i++;?></td>
                                             <td><?=$namabarang;?></td>
                                             <td><?=$deskripsi;?></td>
                                             <td><?=$stock;?></td>
+                                            <td><?=date('d-m-Y H:i:s', strtotime($tanggal));?></td> <!-- Display the date -->
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
                                                     Edit
@@ -184,6 +187,7 @@ require 'cek.php';
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -215,7 +219,11 @@ require 'cek.php';
                 <div class="modal-body">
                     <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
                     <br>
-                    <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                    <select name="deskripsi" class="form-control" required>
+                        <option value="" disabled selected>Jenis Barang</option>
+                        <option value="bahan baku">Bahan Baku</option>
+                        <option value="barang jadi">Barang Jadi</option>
+                    </select>
                     <br>
                     <input type="number" name="stock" placeholder="Stock" class="form-control" required>
                     <br>
@@ -225,5 +233,6 @@ require 'cek.php';
         </div>
     </div>
 </div>
+
 
 </html>
