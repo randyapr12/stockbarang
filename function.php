@@ -9,7 +9,9 @@ if(isset($_POST['addnewbarang'])) {
     $deskripsi = $_POST['deskripsi'];
     $stock = $_POST['stock'];
 
-    $addtotable = mysqli_query($conn, "insert into stock (namabarang, deskripsi, stock) values('$namabarang','$deskripsi','$stock')");
+    // Insert the new item into the stock table with the current date
+    $addtotable = mysqli_query($conn, "INSERT INTO stock (namabarang, deskripsi, stock, tanggal) VALUES ('$namabarang', '$deskripsi', '$stock', NOW())");
+    
     if($addtotable) {
         header('location:index.php?status=success');
     } else {
