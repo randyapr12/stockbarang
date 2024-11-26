@@ -59,7 +59,7 @@ require 'cek.php';
                         </a>
                         <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                            Barang Keluar
+                            Penggunaan Barang
                         </a>
                         <a class="nav-link" href="admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
@@ -83,6 +83,7 @@ require 'cek.php';
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 Tambah Barang Masuk
                             </button>
+                            <a href="export_in_stock.php" class="btn btn-info">Export data</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
