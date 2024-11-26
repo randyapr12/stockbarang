@@ -40,7 +40,7 @@ require 'cek.php';
                         </a>
                         <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                            Barang Keluar
+                            Penggunaan Barang
                         </a>
                         <a class="nav-link" href="admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
