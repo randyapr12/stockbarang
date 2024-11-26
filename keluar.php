@@ -11,7 +11,7 @@ require 'cek.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Barang Keluar</title>
+    <title>Penggunaan Barang</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -59,7 +59,7 @@ require 'cek.php';
                         </a>
                         <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                            Barang Keluar
+                            Penggunaan Barang
                         </a>
                         <a class="nav-link" href="admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
@@ -76,13 +76,14 @@ require 'cek.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Barang Keluar</h1>
+                    <h1 class="mt-4">Penggunaan Barang</h1>
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- Button to Open the Modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Tambah Barang Keluar
+                                Tambah Penggunaan Barang
                             </button>
+                            <a href="export_out_stock.php" class="btn btn-info">Export data</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -92,7 +93,7 @@ require 'cek.php';
                                             <th>Tanggal</th>
                                             <th>Nama Barang</th>
                                             <th>Jumlah</th>
-                                            <th>Penerima</th>
+                                            <th>Pengguna</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -201,7 +202,7 @@ require 'cek.php';
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Barang Keluar</h4>
+                <h4 class="modal-title">Tambah Penggunaan Barang</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
