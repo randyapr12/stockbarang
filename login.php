@@ -47,7 +47,8 @@ if (isset($_SESSION['log'])) {
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
                                     <img src="images/logo.png" alt="Logo" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
-                                    <h3 class="text-center font-weight-light my-4">Login</h3>
+                                    <h3 class="text-center font-weight-light my-4">SISTEM INFORMASI STOK BARANG BAHAN BAKU</h3>
+                                        <h3 class="text-center font-weight-light my-4">Pt. Sarana Inti Indoperkasa </h3>
                                 </div>
                                 <div class="card-body">
                                     <?php
