@@ -57,7 +57,7 @@ require 'cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
                             Barang Masuk
                         </a>
-                        <a class="nav-link" href="keluar.php">
+                        <a class="nav-link" href="penggunaan.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
                             Penggunaan Barang
                         </a>

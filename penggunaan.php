@@ -11,7 +11,7 @@ require 'cek.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Barang Masuk</title>
+    <title>Penggunaan Barang</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@ require 'cek.php';
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="masuk.php">
+        <a class="navbar-brand" href="penggunaan.php">
             <img src="images/logo.png" alt="Logo" style="width: 30px; height: auto; margin-right: 10px;" />
             Stok Bahan Baku
         </a>
@@ -76,14 +76,14 @@ require 'cek.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Barang Masuk</h1>
+                    <h1 class="mt-4">Penggunaan Barang</h1>
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- Button to Open the Modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Tambah Barang Masuk
+                                Tambah Penggunaan Barang
                             </button>
-                            <a href="export_in_stock.php" class="btn btn-info">Export data</a>
+                            <a href="export_out_stock.php" class="btn btn-info">Export data</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -93,38 +93,38 @@ require 'cek.php';
                                             <th>Tanggal</th>
                                             <th>Nama Barang</th>
                                             <th>Jumlah</th>
-                                            <th>Penerima</th>
+                                            <th>Pengguna</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
+                                            $ambilsemuadatastock = mysqli_query($conn,"select * from penggunaan p, stock s where s.idbarang = p.idbarang");
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $idp = $data ['idpenggunaan'];
                                                 $idb = $data ['idbarang'];
-                                                $idm = $data ['idmasuk'];
                                                 $tanggal = $data ['tanggal'];
                                                 $namabarang = $data ['namabarang'];
                                                 $qty = $data ['qty'];
-                                                $keterangan = $data ['keterangan'];
+                                                $penerima = $data ['penerima'];
                                         ?>
                                         <tr>
                                             <td><?=$tanggal;?></td>
                                             <td><?=$namabarang;?></td>
                                             <td><?=$qty;?></td>
-                                            <td><?=$keterangan;?></td>
+                                            <td><?=$penerima;?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idm;?>">
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idp;?>">
                                                     Edit
                                                 </button>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idm;?>">
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idp;?>">
                                                     Delete
                                                 </button>
                                             </td>
                                         </tr>
 
                                         <!-- Edit Modal Header -->
-                                        <div class="modal fade" id="edit<?=$idm;?>">
+                                        <div class="modal fade" id="edit<?=$idp;?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
@@ -135,13 +135,13 @@ require 'cek.php';
                                                     <!-- Modal body -->
                                                     <form method="post">
                                                         <div class="modal-body">
-                                                            <input type="text" name="keterangan" value="<?=$keterangan;?>" class="form-control" required>
+                                                            <input type="text" name="penerima" value="<?=$penerima;?>" class="form-control" required>
                                                             <br>
                                                             <input type="number" name="qty" value="<?=$qty;?>" class="form-control" required>
                                                             <br>
                                                             <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                            <input type="hidden" name="idm" value="<?=$idm;?>">
-                                                            <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
+                                                            <input type="hidden" name="idp" value="<?=$idp;?>">
+                                                            <button type="submit" class="btn btn-primary" name="updatebarangpenggunaan">Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -149,7 +149,7 @@ require 'cek.php';
                                         </div>
 
                                         <!-- Delete Modal Header -->
-                                        <div class="modal fade" id="delete<?=$idm;?>">
+                                        <div class="modal fade" id="delete<?=$idp;?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
@@ -163,10 +163,10 @@ require 'cek.php';
                                                             Apakah Anda yakin ingin menghapus <?=$namabarang;?>?
                                                             <input type="hidden" name="idb" value="<?=$idb;?>">
                                                             <input type="hidden" name="kty" value="<?=$qty;?>">
-                                                            <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                            <input type="hidden" name="idp" value="<?=$idp;?>">
                                                             <br>
                                                             <br>
-                                                            <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>
+                                                            <button type="submit" class="btn btn-danger" name="hapusbarangpenggunaan">Hapus</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -202,7 +202,7 @@ require 'cek.php';
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Barang Masuk</h4>
+                <h4 class="modal-title">Tambah Penggunaan Barang</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
@@ -225,7 +225,7 @@ require 'cek.php';
                     <br>
                     <input type="text" name="penerima" placeholder="Penerima" class="form-control" required>
                     <br>
-                    <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="addbarangpenggunaan">Submit</button>
                 </div>
             </form>
         </div>
