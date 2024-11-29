@@ -3,7 +3,7 @@ require 'function.php';
 require 'cek.php';
 
 // Fetch data from the 'keluar' table including the date
-$ambilsemuadatastock = mysqli_query($conn, "SELECT k.tanggal, s.namabarang, k.qty, k.penerima FROM keluar k JOIN stock s ON s.idbarang = k.idbarang");
+$ambilsemuadatastock = mysqli_query($conn, "SELECT p.tanggal, s.namabarang, p.qty, p.penerima FROM penggunaan p JOIN stock s ON s.idbarang = p.idbarang");
 ?>
 
 <!DOCTYPE html>
