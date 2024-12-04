@@ -143,7 +143,7 @@ if(isset($_POST['updatebarangmasuk'])){
 };
 
 
-// delete barang penggunaaan
+// delete barang masuk
 if(isset($_POST['hapusbarangmasuk'])){
     $idb = $_POST['idb'];
     $qty = $_POST['kty'];

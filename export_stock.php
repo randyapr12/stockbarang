@@ -9,7 +9,8 @@ $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
 // Fetch data from the stock table including the date with filtering
 $query = "SELECT * FROM stock";
 if ($startDate && $endDate) {
-    $query .= " WHERE tanggal BETWEEN '$startDate' AND '$endDate'";
+    // Use <= for the end date to include the entire day
+    $query .= " WHERE tanggalstock >= '$startDate' AND tanggalstock <= '$endDate 23:59:59'";
 }
 $ambilsemuadatastock = mysqli_query($conn, $query);
 ?>
@@ -69,14 +70,14 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                     $namabarang = $data['namabarang'];
                     $deskripsi = $data['deskripsi'];
                     $stock = $data['stock'];
-                    $tanggal = $data['tanggal']; // Fetch the date
+                    $tanggalstock = $data['tanggalstock']; // Fetch the date
                 ?>
                 <tr>
                     <td><?=$i++;?></td>
                     <td><?php echo $namabarang; ?></td>
                     <td><?php echo $deskripsi; ?></td>
                     <td><?php echo $stock; ?></td>
-                    <td><?=date('d-m-Y H:i:s', strtotime($tanggal));?></td> <!-- Display the date -->
+                    <td><?=date('d-m-Y H:i:s', strtotime($tanggalstock));?></td> <!-- Display the date -->
                 </tr>
                 <?php
                 }
