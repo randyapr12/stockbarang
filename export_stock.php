@@ -2,8 +2,16 @@
 require 'function.php';
 require 'cek.php';
 
-// Fetch data from the stock table including the date
-$ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM stock");
+// Initialize variables for date filtering
+$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+// Fetch data from the stock table including the date with filtering
+$query = "SELECT * FROM stock";
+if ($startDate && $endDate) {
+    $query .= " WHERE tanggal BETWEEN '$startDate' AND '$endDate'";
+}
+$ambilsemuadatastock = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +32,25 @@ $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM stock");
 <div class="container">
     <h2>Export Stock</h2>
     <h4>(Inventory)</h4>
+
+    <!-- Date Filter Form -->
+    <form method="POST" class="mb-4">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="<?= $startDate ?>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="<?= $endDate ?>">
+            </div>
+            <div class="form-group col-md-4">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary btn-block">Filter</button>
+            </div>
+        </div>
+    </form>
+
     <div class="data-tables datatable-dark">
         <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
             <thead>

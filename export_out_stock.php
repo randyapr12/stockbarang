@@ -2,8 +2,17 @@
 require 'function.php';
 require 'cek.php';
 
-// Fetch data from the 'keluar' table including the date
-$ambilsemuadatastock = mysqli_query($conn, "SELECT p.tanggal, s.namabarang, p.qty, p.penerima FROM penggunaan p JOIN stock s ON s.idbarang = p.idbarang");
+// Initialize variables for date filtering
+$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+// Fetch data from the 'penggunaan' table including the date with filtering
+$query = "SELECT p.tanggal, s.namabarang, p.qty, p.penerima FROM penggunaan p JOIN stock s ON s.idbarang = p.idbarang";
+if ($startDate && $endDate) {
+    // Use <= for the end date to include the entire day
+    $query .= " WHERE p.tanggal >= '$startDate' AND p.tanggal <= '$endDate 23:59:59'";
+}
+$ambilsemuadatastock = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +33,25 @@ $ambilsemuadatastock = mysqli_query($conn, "SELECT p.tanggal, s.namabarang, p.qt
 <div class="container">
     <h2>Export Penggunaan Barang</h2>
     <h4>(Inventory)</h4>
+
+    <!-- Date Filter Form -->
+    <form method="POST" class="mb-4">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="<?= $startDate ?>">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="<?= $endDate ?>">
+            </div>
+            <div class="form-group col-md-4">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary btn-block">Filter</button>
+            </div>
+        </div>
+    </form>
+
     <div class="data-tables datatable-dark">
         <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
             <thead>
