@@ -118,7 +118,7 @@ require 'cek.php';
                                             $namabarang = $data['namabarang'];
                                             $deskripsi = $data['deskripsi'];
                                             $stock = $data['stock'];
-                                            $tanggal = $data['tanggal']; // Fetch the date
+                                            $tanggalstock = $data['tanggalstock']; // Fetch the date
                                             $idb = $data['idbarang'];
                                         ?>
                                         <tr>
@@ -126,7 +126,7 @@ require 'cek.php';
                                             <td><?=$namabarang;?></td>
                                             <td><?=$deskripsi;?></td>
                                             <td><?=$stock;?></td>
-                                            <td><?=date('d-m-Y H:i:s', strtotime($tanggal));?></td> <!-- Display the date -->
+                                            <td><?=date('d-m-Y H:i:s', strtotime($tanggalstock));?></td> <!-- Display the date -->
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
                                                     Edit
