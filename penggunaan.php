@@ -1,6 +1,18 @@
 <?php
 require 'function.php';
 require 'cek.php';
+
+// Initialize variables for date filtering
+$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+// Fetch data from the penggunaan table including the date with filtering
+$query = "SELECT * FROM penggunaan p, stock s WHERE s.idbarang = p.idbarang";
+if ($startDate && $endDate) {
+    // Use <= for the end date to include the entire day
+    $query .= " AND p.tanggal >= '$startDate' AND p.tanggal <= '$endDate 23:59:59'";
+}
+$ambilsemuadatastock = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -79,6 +91,23 @@ require 'cek.php';
                     <h1 class="mt-4">Penggunaan Barang</h1>
                     <div class="card mb-4">
                         <div class="card-header">
+                            <!-- Date Filter Form -->
+                            <form method="POST" class="mb-4">
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="start_date">Start Date</label>
+                                        <input type="date" class="form-control form-control-sm" id="start_date" name="start_date" value="<?= $startDate ?>">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="end_date">End Date</label>
+                                        <input type="date" class="form-control form-control-sm" id="end_date" name="end_date" value="<?= $endDate ?>">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary btn-block btn-sm">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
                             <!-- Button to Open the Modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 Tambah Penggunaan Barang
@@ -99,14 +128,13 @@ require 'cek.php';
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $ambilsemuadatastock = mysqli_query($conn,"select * from penggunaan p, stock s where s.idbarang = p.idbarang");
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                $idp = $data ['idpenggunaan'];
-                                                $idb = $data ['idbarang'];
-                                                $tanggal = $data ['tanggal'];
-                                                $namabarang = $data ['namabarang'];
-                                                $qty = $data ['qty'];
-                                                $penerima = $data ['penerima'];
+                                                $idp = $data['idpenggunaan'];
+                                                $idb = $data['idbarang'];
+                                                $tanggal = $data['tanggal'];
+                                                $namabarang = $data['namabarang'];
+                                                $qty = $data['qty'];
+                                                $penerima = $data['penerima'];
                                         ?>
                                         <tr>
                                             <td><?=$tanggal;?></td>
