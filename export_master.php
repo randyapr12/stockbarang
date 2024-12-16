@@ -6,8 +6,8 @@ require 'cek.php';
 $startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
 $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
 
-// Fetch data from the stock table including the date with filtering
-$query = "SELECT * FROM stock";
+// Fetch data from the barang table including the date with filtering
+$query = "SELECT * FROM barang";
 if ($startDate && $endDate) {
     // Use <= for the end date to include the entire day
     $query .= " WHERE tanggal >= '$startDate' AND tanggal <= '$endDate 23:59:59'";
@@ -25,7 +25,7 @@ if (!$ambilsemuadatastock) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Stock Data</title>
+    <title>Export Barang Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -36,7 +36,7 @@ if (!$ambilsemuadatastock) {
 </head>
 <body>
 <div class="container">
-    <h2>Export Stock</h2>
+    <h2>Export Barang</h2>
     <h4>(Inventory)</h4>
 
     <!-- Date Filter Form -->
@@ -62,40 +62,24 @@ if (!$ambilsemuadatastock) {
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Tanggal Masuk</th>
                     <th>Nama Barang</th>
-                    <th>Jumlah Masuk</th>
-                    <th>Penerima</th>
+                    <th>Deskripsi</th>
+                    <th>Tanggal Dibuat</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 1;
                 while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                    $idb = $data['idbarang'];
+                    $namabarang = $data['namabarang'];
+                    $deskripsi = $data['deskripsi'];
                     $tanggal = $data['tanggal'];
-                    $qty = $data['qty'];
-                    $penerima = $data['keterangan'];
-
-                    // Ambil nama barang dari tabel barang 
-                    $query_barang = "SELECT * FROM barang WHERE idbarang = '$idb'";
-                    $ambil_nama_barang = mysqli_query($conn, $query_barang);
-                    if (!$ambil_nama_barang) {
-                        die("Query Error: " . mysqli_error($conn)); // Display error if query fails
-                    }
-                    $nama_barang = mysqli_fetch_array($ambil_nama_barang);
-                    if ($nama_barang) {
-                        $namabarang = $nama_barang['namabarang'];
-                    } else {
-                        $namabarang = 'Barang tidak ditemukan';
-                    }
                 ?>
                 <tr>
                     <td><?=$i++;?></td>
-                    <td><?= $tanggal; ?></td>
-                    <td><?= $namabarang; ?></td>
-                    <td><?= $qty; ?></td>
-                    <td><?= $penerima; ?></td>
+                    <td><?php echo $namabarang; ?></td>
+                    <td><?php echo $deskripsi; ?></td>
+                    <td><?=date('d-m-Y H:i:s', strtotime($tanggal));?></td>
                 </tr>
                 <?php
                 }

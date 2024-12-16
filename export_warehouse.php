@@ -6,13 +6,18 @@ require 'cek.php';
 $startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
 $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
 
-// Fetch data from the 'penggunaan' table including the date with filtering
-$query = "SELECT p.tanggal, s.namabarang, p.qty, p.penerima FROM penggunaan p JOIN stock s ON s.idbarang = p.idbarang";
+// Fetch data from the barang table including the date with filtering
+$query = "SELECT * FROM barang";
 if ($startDate && $endDate) {
     // Use <= for the end date to include the entire day
-    $query .= " WHERE p.tanggal >= '$startDate' AND p.tanggal <= '$endDate 23:59:59'";
+    $query .= " WHERE tanggal >= '$startDate' AND tanggal <= '$endDate 23:59:59'";
 }
+
+// Execute the query and check for errors
 $ambilsemuadatastock = mysqli_query($conn, $query);
+if (!$ambilsemuadatastock) {
+    die("Query Error: " . mysqli_error($conn)); // Display error if query fails
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +25,7 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Penggunaan Barang</title>
+    <title>Export Barang Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -31,7 +36,7 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
 </head>
 <body>
 <div class="container">
-    <h2>Export Penggunaan Barang</h2>
+    <h2>Export Barang</h2>
     <h4>(Inventory)</h4>
 
     <!-- Date Filter Form -->
@@ -57,27 +62,38 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Tanggal</th>
                     <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Pengguna</th>
+                    <th>Deskripsi</th>
+                    <th>Stock Terkini</th>
+                    <th>Tanggal Ditambahkan</th> 
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 1;
                 while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                    $tanggal = $data['tanggal'];
                     $namabarang = $data['namabarang'];
-                    $qty = $data['qty'];
-                    $penerima = $data['penerima'];
+                    $deskripsi = $data['deskripsi'];
+                    $idb = $data['idbarang'];
+
+                    // Cek sisa stock
+                    $lihat_stock = mysqli_query($conn, "SELECT SUM(qty) AS total_masuk FROM stock WHERE idbarang = '$idb'");
+                    $data_stock = mysqli_fetch_assoc($lihat_stock);
+                    $total_masuk = $data_stock['total_masuk'];
+
+                    $lihat_penggunaan = mysqli_query($conn, "SELECT SUM(qty) AS total_keluar FROM penggunaan WHERE idbarang = '$idb'");
+                    $data_penggunaan = mysqli_fetch_assoc($lihat_penggunaan);
+                    $total_keluar = $data_penggunaan['total_keluar'];
+
+                    // Hitung sisa stok
+                    $sisa_stok = $total_masuk - $total_keluar;
                 ?>
                 <tr>
                     <td><?=$i++;?></td>
-                    <td><?=date('d-m-Y H:i:s', strtotime($tanggal));?></td> <!-- Display the date -->
                     <td><?php echo $namabarang; ?></td>
-                    <td><?php echo $qty; ?></td>
-                    <td><?php echo $penerima; ?></td>
+                    <td><?php echo $deskripsi; ?></td>
+                    <td><?php echo $sisa_stok; ?></td>
+                    <td><?=date('d-m-Y H:i:s', strtotime($data['tanggal']));?></td> 
                 </tr>
                 <?php
                 }

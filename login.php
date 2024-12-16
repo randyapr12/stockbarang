@@ -12,7 +12,7 @@ if (isset($_POST['login'])) {
     if ($hitung > 0) {
         // Jika login berhasil
         $_SESSION['log'] = 'True';
-        header('location:index.php');
+        header('location:barangmasuk.php');
     } else {
         // Jika login gagal, arahkan kembali dengan pesan error
         header('location:login.php?error=1');
@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_SESSION['log'])) {
-    header('location:index.php');
+    header('location:barangmasuk.php');
 }
 ?>
 

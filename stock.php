@@ -7,7 +7,7 @@ $startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
 $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
 
 // Fetch data from the penggunaan table including the date with filtering
-$query = "SELECT * FROM penggunaan";
+$query = "SELECT * FROM stock";
 if ($startDate && $endDate) {
     // Use <= for the end date to include the entire day
     $query .= " WHERE tanggal >= '$startDate' AND tanggal <= '$endDate 23:59:59'";
@@ -18,6 +18,7 @@ $query .= " ORDER BY tanggal DESC";
 $ambilsemuadatastock = mysqli_query($conn, $query);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,33 +28,30 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Penggunaan Barang</title>
+    <title>Stock Barang</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     <script>
-            window.onload = function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const status = urlParams.get('status');
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
 
-                if (status === 'success') {
-                    alert('Barang berhasil ditambahkan!');
-                } else if (status === 'error') {
-                    alert('Gagal menambahkan barang. Silakan coba lagi.');
-                } else if (status === 'update_success') {
-                    alert('Barang berhasil diperbarui!');
-                } else if (status === 'update_error') {
-                    alert('Gagal memperbarui barang. Silakan coba lagi.');
-                } else if (status === 'hapus_success') {
-                    alert('Barang berhasil dihapus!');
-                } else if (status === 'hapus_error') {
-                    alert('Gagal menghapus barang. Silakan coba lagi.');
-                } else if (status === 'error_stok') {
-                    alert('Stok barang tidak cukup. Silakan cek stok terlebih dahulu.');
-                }
-            };
+            if (status === 'success') {
+                alert('Barang berhasil ditambahkan!');
+            } else if (status === 'error') {
+                alert('Gagal menambahkan barang. Silakan coba lagi.');
+            } else if (status === 'update_success') {
+                alert('Barang berhasil diperbarui!');
+            } else if (status === 'update_error') {
+                alert('Gagal memperbarui barang. Silakan coba lagi.');
+            } else if (status === 'hapus_success') {
+                alert('Barang berhasil dihapus!');
+            } else if (status === 'hapus_error') {
+                alert('Gagal menghapus barang. Silakan coba lagi.');
+            }
+        };
     </script>
-
 
 </head>
 
@@ -101,7 +99,7 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Penggunaan Barang</h1>
+                    <h1 class="mt-4">Barang Masuk</h1>
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- Date Filter Form -->
@@ -109,11 +107,11 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label for="start_date">Start Date</label>
-                                        <input type="date" class="form-control form-control-sm" id="start_date" name="start_date" value="<?= $startDate ?>">
+                                        <input type="date" class="form-control form-control-sm" id="start_date" name="start_date" value="<?= htmlspecialchars($startDate); ?>">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="end_date">End Date</label>
-                                        <input type="date" class="form-control form-control-sm" id="end_date" name="end_date" value="<?= $endDate ?>">
+                                        <input type="date" class="form-control form-control-sm" id="end_date" name="end_date" value="<?= htmlspecialchars($endDate); ?>">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>&nbsp;</label>
@@ -123,9 +121,9 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                             </form>
                             <!-- Button to Open the Modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Tambah Penggunaan Barang
+                                Tambah Stock Barang
                             </button>
-                            <a href="export_use_stock.php" class="btn btn-info">Export data</a>
+                            <a href="export_in_stock.php" class="btn btn-info">Export data</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -133,10 +131,10 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Tanggal</th>
+                                            <th>Tanggal Masuk</th>
                                             <th>Nama Barang</th>
-                                            <th>Jumlah</th>
-                                            <th>Pengguna</th>
+                                            <th>Jumlah Masuk</th>
+                                            <th>Penerima</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -144,17 +142,17 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                         <?php
                                         $i = 1;
                                         while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                                            $idp = $data['idpenggunaan'];
                                             $idb = $data['idbarang'];
-                                            $tanggal = $data['tanggal'];
-                                            $qty = $data['qty'];
-                                            $penerima = $data['pengguna'];
+                                            $idstock = $data['idstock']; // Mengganti idmasuk dengan idstock
+                                            $tanggal = date('d F Y H:i:s', strtotime($data['tanggal']));
+                                            $qty = $data['qty']; // Menggunakan kolom stock dari tabel stock
+                                            $keterangan = $data['keterangan'];
 
-                                            // Ambil nama barang dari tabel barang 
-                                            $query_barang = "SELECT * FROM barang WHERE idbarang = '$idb'";
+                                            // Ambil nama barang dari tabel barangmasuk
+                                            $query_barang = "SELECT namabarang FROM barang WHERE idbarang = '$idb'";
                                             $ambil_nama_barang = mysqli_query($conn, $query_barang);
                                             if (!$ambil_nama_barang) {
-                                                die("Query Error: " . mysqli_error($conn));
+                                                die("Query Error: " . mysqli_error($conn)); // Menampilkan error jika query gagal
                                             }
                                             $nama_barang = mysqli_fetch_array($ambil_nama_barang);
                                             if ($nama_barang) {
@@ -164,23 +162,23 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                             }
                                         ?>
                                             <tr>
-                                                <td><?= $i++?></td>
+                                                <td><?= $i++;?></td>
                                                 <td><?= $tanggal; ?></td>
                                                 <td><?= $namabarang; ?></td>
                                                 <td><?= $qty; ?></td>
-                                                <td><?= $penerima; ?></td>
+                                                <td><?= $keterangan; ?></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idp; ?>">
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?= $idstock; ?>">
                                                         Edit
                                                     </button>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idp; ?>">
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $idstock; ?>">
                                                         Delete
                                                     </button>
                                                 </td>
                                             </tr>
 
                                             <!-- Edit Modal Header -->
-                                            <div class="modal fade" id="edit<?= $idp; ?>">
+                                            <div class="modal fade" id="edit<?= $idstock; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -193,18 +191,15 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                                             <div class="modal-body">
                                                                 <select name="barangnya" class="form-control" required>
                                                                     <?php
-                                                                    // <option value="" disabled selected>Pilih Barang</option> <!-- Placeholder untuk dropdown -->
-                                                                    // Ambil data dari tabel barangmasuk
-                                                                    $query_barang = "SELECT * FROM barang"; // Pastikan tabel barangmasuk ada
+                                                                    $query_barang = "SELECT * FROM barang";
                                                                     $ambil_barang = mysqli_query($conn, $query_barang);
                                                                     if (!$ambil_barang) {
-                                                                        die("Query Error: " . mysqli_error($conn)); // Menampilkan error jika query gagal
+                                                                        die("Query Error: " . mysqli_error($conn)); 
                                                                     }
                                                                     while ($fetch_barang = mysqli_fetch_array($ambil_barang)) {
-                                                                        $namabarangya = $fetch_barang['namabarang']; // Pastikan kolom ini ada di tabel barangmasuk
-                                                                        $idbarangnya = $fetch_barang['idbarang']; // Pastikan kolom ini ada di tabel barangmasuk
+                                                                        $namabarangya = $fetch_barang['namabarang']; 
+                                                                        $idbarangnya = $fetch_barang['idbarang']; 
                                                                     ?>
-
                                                                         <?php
                                                                         if ($idb == $idbarangnya) {
                                                                         ?>
@@ -222,12 +217,12 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                                                     ?>
                                                                 </select>
                                                                 <br>
-                                                                <input type="text" name="penerima" value="<?= $penerima; ?>" class="form-control" required>
+                                                                <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control" required>
                                                                 <br>
                                                                 <input type="number" name="qty" value="<?= $qty; ?>" class="form-control" required>
-                                                                <br>                                                                
-                                                                <input type="hidden" name="idp" value="<?= $idp; ?>">
-                                                                <button type="submit" class="btn btn-primary" name="updatepenggunaan">Submit</button>
+                                                                <br>
+                                                                <input type="hidden" name="idstock" value="<?= $idstock; ?>">
+                                                                <button type="submit" class="btn btn-primary" name="updatestockbarang">Submit</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -235,7 +230,7 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                             </div>
 
                                             <!-- Delete Modal Header -->
-                                            <div class="modal fade" id="delete<?= $idp; ?>">
+                                            <div class="modal fade" id="delete<?= $idstock; ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <!-- Modal Header -->
@@ -248,11 +243,11 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                                                             <div class="modal-body">
                                                                 Apakah Anda yakin ingin menghapus <?= $namabarang; ?>?
                                                                 <input type="hidden" name="idb" value="<?= $idb; ?>">
-                                                                <input type="hidden" name="kty" value="<?= $qty; ?>">
-                                                                <input type="hidden" name="idp" value="<?= $idp; ?>">
+                                                                <input type="hidden" name="qty" value="<?= $qty; ?>">
+                                                                <input type="hidden" name="idstock" value="<?= $idstock; ?>">
                                                                 <br>
                                                                 <br>
-                                                                <button type="submit" class="btn btn-danger" name="hapuspenggunaan">Hapus</button>
+                                                                <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -288,18 +283,23 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Penggunaan Barang</h4>
+                <h4 class="modal-title">Tambah Barang</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <form method="post">
                 <div class="modal-body">
-                    <select name="barangnya" class="form-control">
+                    <select name="barangnya" class="form-control" required>
+                        <option value="" disabled selected>Pilih Barang</option> 
                         <?php
-                        $ambilsmuadatanya = mysqli_query($conn, "SELECT * FROM barang");
-                        while ($fetcharray = mysqli_fetch_array($ambilsmuadatanya)) {
-                            $namabarangya = $fetcharray['namabarang'];
-                            $idbarangnya = $fetcharray['idbarang'];
+                        $query_barang = "SELECT * FROM barang"; 
+                        $ambil_barang = mysqli_query($conn, $query_barang);
+                        if (!$ambil_barang) {
+                            die("Query Error: " . mysqli_error($conn));
+                        }
+                        while ($fetch_barang = mysqli_fetch_array($ambil_barang)) {
+                            $namabarangya = $fetch_barang['namabarang']; 
+                            $idbarangnya = $fetch_barang['idbarang']; 
                         ?>
                             <option value="<?= $idbarangnya; ?>"><?= $namabarangya; ?></option>
                         <?php
@@ -307,15 +307,17 @@ $ambilsemuadatastock = mysqli_query($conn, $query);
                         ?>
                     </select>
                     <br>
-                    <input type="number" name="qty" placeholder="Quantity" class="form-control" required>
+                    <input type="number" name="qty" placeholder="QTY" class="form-control" required>
                     <br>
-                    <input type="text" name="penerima" placeholder="Pengguna" class="form-control" required>
+                    <input type="text" name="penerima" placeholder="Penerima" class="form-control" required>
                     <br>
-                    <button type="submit" class="btn btn-primary" name="addbarangpenggunaan">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="tambahstockbarang">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
 
 </html>
